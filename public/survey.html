@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Survey</title>
+</head>
+<body>
+  <h1>Alumni Survey</h1>
+  <form id="survey-form" action="/survey" method="post">
+    <!-- Questions will be dynamically inserted here -->
+  </form>
+  <button type="submit" form="survey-form">Submit Survey</button>
+  <p><a href="/job-history">Add Job History</a></p>
+  <p><a href="/logout">Logout</a></p>
+
+  <script>
+    // Fetch questions from the server and populate the form
+    fetch('/questions')
+      .then(response => {
+        if (!response.ok) {
+          // If not logged in, the server will redirect. The browser will handle it.
+          // Or, if another error, you can handle it here.
+          if (response.status === 401) {
+            window.location.href = '/';
+          }
+          return;
+        }
+        return response.json();
+      })
+      .then(questions => {
+        if (!questions) return; // In case of redirect, questions will be undefined
+        const form = document.getElementById('survey-form');
+        questions.forEach(question => {
+          const label = document.createElement('label');
+          label.textContent = question.question_text;
+          const input = document.createElement('input');
+          input.name = `question_${question.id}`;
+          input.type = 'text';
+          input.required = true;
+          form.appendChild(label);
+          form.appendChild(input);
+          form.appendChild(document.createElement('br'));
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching questions:', error);
+      });
+  </script>
+</body>
+</html>

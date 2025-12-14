@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Job History</title>
+</head>
+<body>
+  <h1>Job History</h1>
+  <form action="/job-history" method="post">
+    <label>
+      Company Name
+      <input name="company_name" type="text" required>
+    </label>
+    <label>
+      Position
+      <input name="position" type="text" required>
+    </label>
+    <label>
+      Start Date
+      <input name="start_date" type="date" required>
+    </label>
+    <label>
+      End Date
+      <input name="end_date" type="date">
+    </label>
+    <br>
+    <button type="submit">Add Job</button>
+  </form>
+  <p><a href="/survey">Back to Survey</a></p>
+  <p><a href="/logout">Logout</a></p>
+</body>
+</html>

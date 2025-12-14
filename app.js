@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const path = require("path");
+const bcrypt = require("bcrypt");
+const session = require("express-session");
 
 const app = express();
 app.use(bodyParser.json());
@@ -9,11 +11,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
+// Session middleware
+app.use(
+  session({
+    secret: "your_secret_key", // In production, use an environment variable
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }, // Set to true if using HTTPS
+  })
+);
+
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "node_crud",
+  database: "node_alumni_db",
 });
 
 db.connect((err) => {
@@ -24,77 +36,109 @@ db.connect((err) => {
   }
 });
 
+const saltRounds = 10;
+
+// Middleware to protect routes
+const isAuthenticated = (req, res, next) => {
+  if (req.session.user) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
 app.listen(3000, () => {
   console.log("Server running at http://localhost:3000");
 });
 
 app.get("/", (req, res) => {
-  res.send("Welcome to the Node.js CRUD application!");
+  if (req.session.user) {
+    res.redirect("/survey");
+  } else {
+    res.sendFile(path.join(__dirname, "public", "login.html"));
+  }
 });
 
-app.get("/form", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "form.html"));
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "register.html"));
 });
 
-app.get("/login-page", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
-});
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).send("Email and password are required.");
+  }
 
-app.get("/user", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "users.html"));
-});
-
-app.post("/users", (req, res) => {
-  const { name, email, age } = req.body;
-  const query = "INSERT INTO users (name, email, age) VALUES (?, ?, ?)";
-  db.query(query, [name, email, age], (err, result) => {
+  bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send({ message: "User created!", userId: result.insertId });
+      return res.status(500).send("Error hashing password");
     }
+    const query = "INSERT INTO users (email, password) VALUES (?, ?)";
+    db.query(query, [email, hash], (err, result) => {
+      if (err) {
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(409).send("User with this email already exists.");
+        }
+        return res.status(500).send("Database error on user creation.");
+      }
+      res.redirect("/"); // Redirect to login page after successful registration
+    });
   });
 });
 
-app.get("/users", (req, res) => {
-  const query = "SELECT * FROM users";
+
+app.get("/survey", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "survey.html"));
+});
+
+app.get("/questions", isAuthenticated, (req, res) => {
+  const query = "SELECT * FROM questions";
   db.query(query, (err, results) => {
     if (err) {
-      res.status(500).send("Error fetching users.");
+      res.status(500).send("Error fetching questions.");
     } else {
       res.json(results);
     }
   });
 });
 
-app.put("/users/:id", (req, res) => {
-  const { name, email, age } = req.body;
-  const query = "UPDATE users SET name=?, email=?, age=? WHERE id=?";
-  db.query(query, [name, email, age, req.params.id], (err) => {
-    if (err) return res.status(500).send("Update failed");
-    res.send({ message: "User updated" });
+app.post("/survey", isAuthenticated, (req, res) => {
+  const userId = req.session.user.id;
+  const answers = req.body;
+
+  const query = "INSERT INTO user_answers (user_id, question_id, answer_text) VALUES ?";
+  const values = Object.keys(answers).map((key) => {
+    const questionId = key.split("_")[1];
+    return [userId, questionId, answers[key]];
   });
-});
 
-app.delete("/users/:id", (req, res) => {
-  const query = "DELETE FROM users WHERE id=?";
-  db.query(query, [req.params.id], (err) => {
-    if (err) return res.status(500).send("Delete failed");
-    res.send({ message: "User deleted" });
-  });
-});
+  if (values.length === 0) {
+    return res.status(400).send("No answers submitted.");
+  }
 
-app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-
-  const query = "SELECT * FROM users WHERE email = ? AND password = ?";
-  db.query(query, [email, password], (err, results) => {
-    if (err) return res.status(500).send("Login error");
-
-    if (results.length === 0) {
-      return res.status(401).send("Invalid email or password");
+  db.query(query, [values], (err, result) => {
+    if (err) {
+      return res.status(500).send("Error submitting survey.");
     }
+    // Redirect to a confirmation page or job history page
+    res.redirect("/job-history");
+  });
+});
 
-    res.send({ message: "Login successful", user: results[0] });
+app.get("/job-history", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "job_history.html"));
+});
+
+app.post("/job-history", isAuthenticated, (req, res) => {
+  const userId = req.session.user.id;
+  const { company_name, position, start_date, end_date } = req.body;
+
+  const query = "INSERT INTO job_history (user_id, company_name, position, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
+  db.query(query, [userId, company_name, position, start_date, end_date || null], (err, result) => {
+    if (err) {
+      return res.status(500).send("Error adding job history.");
+    }
+    // Can redirect to a "thank you" page or back to the job history to add more
+    res.redirect("/job-history");
   });
 });
