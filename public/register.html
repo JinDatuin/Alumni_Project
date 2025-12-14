@@ -641,23 +641,6 @@
     termsCheckbox.addEventListener('change', updateSubmitButton);
     document.getElementById('email').addEventListener('input', updateSubmitButton);
     
-    // Form submission
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Show loading state
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
-      submitBtn.disabled = true;
-      
-      // Simulate API call
-      setTimeout(() => {
-        // In a real app, this would submit to the server
-        alert('Registration successful! You will be redirected to the login page.');
-        window.location.href = '/';
-      }, 1500);
-    });
-    
     // Initialize progress bar
     progressFill.style.width = '0%';
   </script>
