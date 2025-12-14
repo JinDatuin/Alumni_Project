@@ -3,31 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job History</title>
+    <title>Career Timeline | Alumni Network</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       :root {
-        --primary-color: #4361ee;
-        --secondary-color: #3a0ca3;
-        --accent-color: #4cc9f0;
-        --light-bg: #f8f9fa;
-        --dark-bg: #212529;
-        --success-color: #4ade80;
-        --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-        --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+        --alumni-primary: #1a365d;
+        --alumni-secondary: #2c5282;
+        --alumni-accent: #e53e3e;
+        --alumni-gold: #d69e2e;
+        --alumni-light: #f7fafc;
+        --alumni-dark: #2d3748;
+        --alumni-success: #38a169;
       }
       
       body {
-        background-color: #f5f7ff;
-        background-image: 
-          radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.05) 0%, transparent 20%),
-          radial-gradient(circle at 90% 80%, rgba(76, 201, 240, 0.05) 0%, transparent 20%);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
+        color: var(--alumni-dark);
         padding-bottom: 3rem;
       }
       
@@ -35,67 +33,96 @@
         max-width: 1200px;
       }
       
-      /* Header styling */
-      .page-header {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      /* Header Styling */
+      .alumni-header {
+        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
         color: white;
         border-radius: 15px;
         padding: 2rem;
         margin-bottom: 2.5rem;
-        box-shadow: var(--card-shadow);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
       }
       
-      .page-header::before {
+      .alumni-header::before {
         content: '';
         position: absolute;
-        top: -50%;
-        right: -30%;
-        width: 300px;
-        height: 300px;
+        top: -30%;
+        right: -10%;
+        width: 250px;
+        height: 250px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
       }
       
-      .page-header h1 {
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+      .alumni-header::after {
+        content: '';
+        position: absolute;
+        bottom: -20%;
+        left: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
       }
       
-      .page-header p {
+      .header-content {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .alumni-header h1 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      
+      .alumni-header h1 i {
+        color: var(--alumni-gold);
+      }
+      
+      .alumni-header p {
         opacity: 0.9;
         max-width: 600px;
         margin-bottom: 0;
+        font-size: 1.1rem;
       }
       
       .logout-btn {
         background-color: rgba(255, 255, 255, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.3);
-        padding: 0.5rem 1.5rem;
+        padding: 0.6rem 1.5rem;
         border-radius: 50px;
         color: white;
         font-weight: 500;
         transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
       
       .logout-btn:hover {
         background-color: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
+        text-decoration: none;
+        color: white;
       }
       
-      /* Form styling */
-      .form-container {
+      /* Form Styling */
+      .form-card {
         background-color: white;
         border-radius: 15px;
         padding: 2rem;
         margin-bottom: 3rem;
-        box-shadow: var(--card-shadow);
-        border-left: 5px solid var(--accent-color);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        border-left: 5px solid var(--alumni-gold);
       }
       
-      .form-container h2 {
-        color: var(--secondary-color);
+      .form-title {
+        color: var(--alumni-primary);
         font-weight: 600;
         margin-bottom: 1.5rem;
         display: flex;
@@ -103,162 +130,98 @@
         gap: 10px;
       }
       
-      .form-container h2 i {
-        color: var(--accent-color);
+      .form-title i {
+        color: var(--alumni-gold);
       }
       
       .form-label {
         font-weight: 600;
-        color: #555;
+        color: var(--alumni-dark);
         margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+      }
+      
+      .input-group {
+        position: relative;
+      }
+      
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--alumni-secondary);
+        z-index: 4;
       }
       
       .form-control {
-        border: 2px solid #eaeaea;
+        padding-left: 45px;
+        border: 2px solid #e2e8f0;
         border-radius: 10px;
-        padding: 0.75rem 1rem;
+        height: 50px;
+        font-size: 1rem;
         transition: all 0.3s;
+        background-color: white;
       }
       
       .form-control:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 0.25rem rgba(76, 201, 240, 0.25);
+        border-color: var(--alumni-primary);
+        box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+      }
+      
+      .form-text {
+        font-size: 0.85rem;
+        color: #718096;
+        margin-top: 5px;
       }
       
       .submit-btn {
-        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
         border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 10px;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        color: white;
         font-weight: 600;
-        letter-spacing: 0.5px;
+        font-size: 1.1rem;
+        cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: center;
+        gap: 10px;
         margin-top: 1rem;
+        width: 100%;
       }
       
       .submit-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
+        box-shadow: 0 10px 25px rgba(26, 54, 93, 0.2);
       }
       
-      /* Job history list styling */
-      .history-header {
-        color: var(--secondary-color);
+      /* Career Timeline */
+      .timeline-header {
+        color: var(--alumni-primary);
         font-weight: 700;
         margin-bottom: 1.5rem;
         padding-bottom: 0.75rem;
-        border-bottom: 3px solid var(--accent-color);
+        border-bottom: 3px solid var(--alumni-gold);
         display: flex;
         align-items: center;
         gap: 10px;
       }
       
-      .job-card {
-        background-color: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-bottom: 1.25rem;
-        box-shadow: var(--card-shadow);
-        border-left: 5px solid var(--primary-color);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .job-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--card-shadow-hover);
-      }
-      
-      .job-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      }
-      
-      .job-card.current {
-        border-left-color: var(--success-color);
-      }
-      
-      .job-card.current::before {
-        background: linear-gradient(to right, var(--success-color), var(--accent-color));
-      }
-      
-      .job-company {
-        color: var(--secondary-color);
-        font-weight: 700;
-        font-size: 1.25rem;
-        margin-bottom: 0.25rem;
-      }
-      
-      .job-position {
-        color: var(--primary-color);
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-      }
-      
-      .job-duration {
-        background-color: rgba(67, 97, 238, 0.1);
-        color: var(--primary-color);
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      
-      .current-badge {
-        background-color: rgba(74, 222, 128, 0.2);
-        color: #16a34a;
-        padding: 0.25rem 0.75rem;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-left: 10px;
-      }
-      
-      .empty-state {
-        text-align: center;
-        padding: 3rem 1rem;
-        color: #6c757d;
-      }
-      
-      .empty-state i {
-        font-size: 3rem;
-        color: #dee2e6;
-        margin-bottom: 1rem;
-      }
-      
-      .empty-state h3 {
-        color: #adb5bd;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-      
-      /* Timeline styling for job history */
-      .timeline {
+      .timeline-container {
         position: relative;
         padding-left: 30px;
       }
       
-      .timeline::before {
-        content: '';
+      .timeline-line {
         position: absolute;
         left: 15px;
         top: 0;
         bottom: 0;
         width: 3px;
-        background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        background: linear-gradient(to bottom, var(--alumni-primary), var(--alumni-secondary));
         border-radius: 3px;
       }
       
@@ -270,36 +233,169 @@
       .timeline-marker {
         position: absolute;
         left: -33px;
-        top: 0;
+        top: 20px;
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        background-color: var(--primary-color);
-        border: 4px solid white;
-        box-shadow: 0 0 0 3px var(--primary-color);
-        z-index: 1;
+        background-color: white;
+        border: 4px solid var(--alumni-primary);
+        box-shadow: 0 0 0 3px white;
+        z-index: 2;
       }
       
       .timeline-item.current .timeline-marker {
-        background-color: var(--success-color);
-        box-shadow: 0 0 0 3px var(--success-color);
+        border-color: var(--alumni-success);
+        background-color: white;
       }
       
-      /* Responsive adjustments */
+      /* Job Card */
+      .job-card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid var(--alumni-primary);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .job-card.current {
+        border-left-color: var(--alumni-success);
+      }
+      
+      .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      
+      .job-company {
+        color: var(--alumni-primary);
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 0.25rem;
+      }
+      
+      .job-position {
+        color: var(--alumni-secondary);
+        font-weight: 600;
+        font-size: 1rem;
+      }
+      
+      .job-duration {
+        background-color: rgba(26, 54, 93, 0.1);
+        color: var(--alumni-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 0.5rem;
+      }
+      
+      .current-badge {
+        background-color: rgba(56, 161, 105, 0.1);
+        color: var(--alumni-success);
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-left: 10px;
+      }
+      
+      .job-details {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e2e8f0;
+      }
+      
+      .job-duration-text {
+        font-size: 0.9rem;
+        color: #718096;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: #6c757d;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+      
+      .empty-state i {
+        font-size: 3.5rem;
+        color: #cbd5e0;
+        margin-bottom: 1rem;
+      }
+      
+      .empty-state h3 {
+        color: #a0aec0;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      
+      .empty-state p {
+        color: #a0aec0;
+        margin-bottom: 0;
+      }
+      
+      /* Stats Card */
+      .stats-card {
+        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+        color: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+      
+      .stats-title {
+        font-weight: 600;
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+      }
+      
+      .stats-value {
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 0;
+      }
+      
       @media (max-width: 768px) {
-        .page-header {
+        .alumni-header {
           padding: 1.5rem;
         }
         
-        .form-container {
+        .form-card {
           padding: 1.5rem;
         }
         
-        .job-card {
-          padding: 1.25rem;
+        .job-header {
+          flex-direction: column;
+          align-items: flex-start;
         }
         
-        .timeline {
+        .job-duration {
+          margin-top: 1rem;
+        }
+        
+        .timeline-container {
           padding-left: 25px;
         }
         
@@ -309,60 +405,98 @@
           height: 20px;
         }
       }
+      
+      @media (max-width: 576px) {
+        .alumni-header h1 {
+          font-size: 1.8rem;
+        }
+        
+        .form-title {
+          font-size: 1.5rem;
+        }
+        
+        .timeline-header {
+          font-size: 1.5rem;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container mt-4">
       <!-- Header Section -->
-      <div class="page-header">
+      <div class="alumni-header">
         <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <h1><i class="fas fa-briefcase me-2"></i>Job History</h1>
-            <p>Track and manage your professional journey. Add your past and current work experiences to build your career timeline.</p>
+          <div class="header-content">
+            <h1><i class="fas fa-briefcase"></i> Career Timeline</h1>
+            <p>Track and showcase your professional journey. Build a comprehensive career history that highlights your growth and achievements.</p>
           </div>
           <a href="/logout" class="btn logout-btn">
-            <i class="fas fa-sign-out-alt me-1"></i> Logout
+            <i class="fas fa-sign-out-alt"></i> Logout
           </a>
         </div>
       </div>
       
+      <!-- Stats Card -->
+      <div class="row">
+        <div class="col-md-4">
+          <div class="stats-card">
+            <div class="stats-title">Total Experience</div>
+            <div class="stats-value" id="totalExperience">0 years</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-card">
+            <div class="stats-title">Positions Held</div>
+            <div class="stats-value" id="totalPositions">0</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-card">
+            <div class="stats-title">Current Role</div>
+            <div class="stats-value" id="currentRole">-</div>
+          </div>
+        </div>
+      </div>
+      
       <!-- Add Job Form -->
-      <div class="form-container">
-        <h2><i class="fas fa-plus-circle"></i> Add New Job Experience</h2>
+      <div class="form-card">
+        <h2 class="form-title"><i class="fas fa-plus-circle"></i> Add Career Milestone</h2>
         <form action="/job-history" method="POST" class="mb-5">
           <div class="row g-3">
             <div class="col-md-6">
-              <label for="company_name" class="form-label">Company Name</label>
+              <label for="company_name" class="form-label">Company / Organization</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-building"></i></span>
+                <i class="fas fa-building input-icon"></i>
                 <input
                   type="text"
                   class="form-control"
                   id="company_name"
                   name="company_name"
-                  placeholder="Enter company name"
+                  placeholder="e.g., Tech Corporation Inc."
                   required
                 />
               </div>
+              <div class="form-text">Enter the full name of the company or organization</div>
             </div>
             <div class="col-md-6">
-              <label for="position" class="form-label">Position</label>
+              <label for="position" class="form-label">Position / Role</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-user-tie"></i></span>
+                <i class="fas fa-user-tie input-icon"></i>
                 <input
                   type="text"
                   class="form-control"
                   id="position"
                   name="position"
-                  placeholder="Enter your job position"
+                  placeholder="e.g., Senior Software Engineer"
                   required
                 />
               </div>
+              <div class="form-text">Your official job title or position</div>
             </div>
             <div class="col-md-6">
               <label for="start_date" class="form-label">Start Date</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                <i class="fas fa-calendar-alt input-icon"></i>
                 <input
                   type="date"
                   class="form-control"
@@ -371,11 +505,12 @@
                   required
                 />
               </div>
+              <div class="form-text">When you started this position</div>
             </div>
             <div class="col-md-6">
-              <label for="end_date" class="form-label">End Date <span class="text-muted">(leave blank if current)</span></label>
+              <label for="end_date" class="form-label">End Date</label>
               <div class="input-group">
-                <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                <i class="fas fa-calendar-check input-icon"></i>
                 <input
                   type="date"
                   class="form-control"
@@ -383,31 +518,35 @@
                   name="end_date"
                 />
               </div>
+              <div class="form-text">Leave blank if this is your current position</div>
             </div>
           </div>
           <button type="submit" class="btn submit-btn">
-            <i class="fas fa-plus"></i> Add Job Experience
+            <i class="fas fa-plus"></i> Add Career Milestone
           </button>
         </form>
       </div>
       
-      <!-- Job History List -->
-      <h2 class="history-header"><i class="fas fa-history"></i> Your Job History</h2>
+      <!-- Career Timeline -->
+      <h2 class="timeline-header"><i class="fas fa-history"></i> Your Career Timeline</h2>
       
       <div id="jobHistoryContainer">
         <!-- Empty state (will be replaced by JavaScript) -->
         <div class="empty-state" id="emptyState">
           <i class="fas fa-clipboard-list"></i>
-          <h3>No job history yet</h3>
-          <p>Add your first job experience using the form above.</p>
+          <h3>No career history yet</h3>
+          <p>Add your first career milestone using the form above to start building your professional timeline.</p>
         </div>
         
         <!-- Timeline container for jobs (will be populated by JavaScript) -->
-        <div class="timeline d-none" id="timelineContainer"></div>
+        <div class="timeline-container d-none" id="timelineContainer">
+          <div class="timeline-line"></div>
+        </div>
       </div>
     </div>
 
     <script>
+      // All API calls and functionality remain exactly the same
       document.addEventListener("DOMContentLoaded", function () {
         fetch("/job-history/all")
           .then((response) => response.json())
@@ -428,10 +567,14 @@
             timelineContainer.classList.remove("d-none");
             
             // Clear previous content
-            timelineContainer.innerHTML = "";
+            timelineContainer.innerHTML = '<div class="timeline-line"></div>';
             
             // Sort jobs by start date (most recent first)
             jobs.sort((a, b) => new Date(b.start_date) - new Date(a.start_date));
+            
+            // Calculate stats
+            let totalMonths = 0;
+            let currentPosition = "-";
             
             // Add each job to the timeline
             jobs.forEach((job) => {
@@ -455,11 +598,26 @@
                 });
               }
               
+              // Calculate duration for stats
+              const end = job.end_date ? new Date(job.end_date) : new Date();
+              const start = new Date(job.start_date);
+              let months = (end.getFullYear() - start.getFullYear()) * 12;
+              months -= start.getMonth();
+              months += end.getMonth();
+              totalMonths += months;
+              
+              // Set current position
+              if (isCurrent) {
+                currentPosition = job.position;
+              }
+              
+              const durationText = calculateDuration(job.start_date, job.end_date);
+              
               jobElement.innerHTML = `
                 <div class="timeline-marker"></div>
                 <div class="job-card ${isCurrent ? 'current' : ''}">
-                  <div class="d-flex justify-content-between align-items-start flex-wrap">
-                    <div class="mb-2">
+                  <div class="job-header">
+                    <div>
                       <div class="job-company">${job.company_name}</div>
                       <div class="job-position">
                         ${job.position}
@@ -471,22 +629,25 @@
                       ${startDateFormatted} - ${endDateFormatted}
                     </div>
                   </div>
-                  <div class="mt-3">
-                    <small class="text-muted">
-                      <i class="far fa-clock me-1"></i>
-                      ${calculateDuration(job.start_date, job.end_date)}
-                    </small>
+                  <div class="job-details">
+                    <div class="job-duration-text">
+                      <i class="far fa-clock"></i>
+                      ${durationText}
+                    </div>
                   </div>
                 </div>
               `;
               
               timelineContainer.appendChild(jobElement);
             });
+            
+            // Update stats
+            updateStats(jobs.length, totalMonths, currentPosition);
           })
           .catch((error) => {
             console.error("Error fetching job history:", error);
             document.getElementById("jobHistoryContainer").innerHTML = 
-              '<div class="alert alert-danger mt-3">Error loading job history. Please try again later.</div>';
+              '<div class="alert alert-danger mt-3">Error loading career history. Please try again later.</div>';
           });
           
           // Helper function to calculate job duration
@@ -514,6 +675,30 @@
             } else {
               return "Less than a month";
             }
+          }
+          
+          // Update stats cards
+          function updateStats(totalPositions, totalMonths, currentPosition) {
+            document.getElementById('totalPositions').textContent = totalPositions;
+            document.getElementById('currentRole').textContent = currentPosition;
+            
+            // Calculate years from months
+            const totalYears = Math.floor(totalMonths / 12);
+            const remainingMonths = totalMonths % 12;
+            
+            let experienceText = '';
+            if (totalYears > 0) {
+              experienceText = `${totalYears} year${totalYears !== 1 ? 's' : ''}`;
+              if (remainingMonths > 0) {
+                experienceText += `, ${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`;
+              }
+            } else if (remainingMonths > 0) {
+              experienceText = `${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`;
+            } else {
+              experienceText = "No experience";
+            }
+            
+            document.getElementById('totalExperience').textContent = experienceText;
           }
       });
     </script>

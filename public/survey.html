@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,8 +9,14 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --alumni-primary: #1a365d;
@@ -19,22 +26,26 @@
         --alumni-light: #f7fafc;
         --alumni-dark: #2d3748;
       }
-      
+
       body {
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         min-height: 100vh;
         color: var(--alumni-dark);
         padding: 20px 0;
       }
-      
+
       .container {
         max-width: 900px;
       }
-      
+
       /* Header Styling */
       .survey-header {
-        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+        background: linear-gradient(
+          135deg,
+          var(--alumni-primary),
+          var(--alumni-secondary)
+        );
         color: white;
         border-radius: 15px;
         padding: 2rem;
@@ -43,9 +54,9 @@
         position: relative;
         overflow: hidden;
       }
-      
+
       .survey-header::before {
-        content: '';
+        content: "";
         position: absolute;
         top: -30%;
         right: -10%;
@@ -54,12 +65,12 @@
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
       }
-      
+
       .header-content {
         position: relative;
         z-index: 1;
       }
-      
+
       .survey-header h1 {
         font-weight: 700;
         margin-bottom: 0.5rem;
@@ -67,18 +78,18 @@
         align-items: center;
         gap: 15px;
       }
-      
+
       .survey-header h1 i {
         color: var(--alumni-gold);
       }
-      
+
       .survey-header p {
         opacity: 0.9;
         max-width: 700px;
         margin-bottom: 0;
         font-size: 1.1rem;
       }
-      
+
       .logout-btn {
         background-color: rgba(255, 255, 255, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.3);
@@ -91,14 +102,14 @@
         align-items: center;
         gap: 8px;
       }
-      
+
       .logout-btn:hover {
         background-color: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
         text-decoration: none;
         color: white;
       }
-      
+
       /* Survey Container */
       .survey-card {
         background-color: white;
@@ -107,7 +118,7 @@
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         margin-bottom: 2rem;
       }
-      
+
       /* Survey Info */
       .survey-info {
         background-color: rgba(214, 158, 46, 0.1);
@@ -116,7 +127,7 @@
         border-radius: 0 10px 10px 0;
         margin-bottom: 2rem;
       }
-      
+
       .survey-info h4 {
         color: var(--alumni-primary);
         font-weight: 600;
@@ -125,13 +136,13 @@
         align-items: center;
         gap: 10px;
       }
-      
+
       .survey-info p {
         color: var(--alumni-dark);
         margin-bottom: 0;
         font-size: 0.95rem;
       }
-      
+
       /* Questions Styling */
       .question-card {
         background-color: #f8fafc;
@@ -141,12 +152,12 @@
         border-left: 4px solid var(--alumni-primary);
         transition: all 0.3s ease;
       }
-      
+
       .question-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
       }
-      
+
       .question-number {
         display: inline-flex;
         align-items: center;
@@ -160,7 +171,7 @@
         margin-right: 10px;
         font-size: 0.9rem;
       }
-      
+
       .question-label {
         font-weight: 600;
         color: var(--alumni-dark);
@@ -169,14 +180,14 @@
         display: flex;
         align-items: center;
       }
-      
+
       .form-label {
         font-weight: 600;
         color: var(--alumni-primary);
         margin-bottom: 0.5rem;
         font-size: 1rem;
       }
-      
+
       .form-control {
         border: 2px solid #e2e8f0;
         border-radius: 10px;
@@ -185,12 +196,12 @@
         transition: all 0.3s;
         background-color: white;
       }
-      
+
       .form-control:focus {
         border-color: var(--alumni-primary);
         box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
       }
-      
+
       /* Character Counter */
       .char-counter {
         font-size: 0.85rem;
@@ -199,10 +210,21 @@
         margin-top: 5px;
         display: none;
       }
-      
+
+      .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
       /* Submit Button */
       .submit-btn {
-        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+        background: linear-gradient(
+          135deg,
+          var(--alumni-primary),
+          var(--alumni-secondary)
+        );
         border: none;
         padding: 1rem 2.5rem;
         border-radius: 12px;
@@ -215,65 +237,92 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        margin: 2rem auto 0;
-        width: 100%;
-        max-width: 300px;
+        width: auto; /* Adjust width */
       }
-      
+
       .submit-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 10px 25px rgba(26, 54, 93, 0.2);
       }
-      
+
+      .skip-btn {
+        background-color: transparent;
+        border: 2px solid var(--alumni-secondary);
+        color: var(--alumni-secondary);
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        text-decoration: none; /* Remove underline from anchor */
+      }
+
+      .skip-btn:hover {
+        background-color: var(--alumni-secondary);
+        color: white;
+        transform: translateY(-3px);
+      }
+
       /* Loading State */
       .loading-state {
         text-align: center;
         padding: 3rem 1rem;
         color: #6c757d;
       }
-      
+
       .loading-state i {
         font-size: 2.5rem;
         color: var(--alumni-primary);
         margin-bottom: 1rem;
       }
-      
+
       .loading-state h3 {
         color: var(--alumni-dark);
         font-weight: 600;
         margin-bottom: 0.5rem;
       }
-      
+
       /* Empty State */
       .empty-state {
         text-align: center;
         padding: 3rem 1rem;
         color: #6c757d;
       }
-      
+
       .empty-state i {
         font-size: 3rem;
         color: #cbd5e0;
         margin-bottom: 1rem;
       }
-      
+
       .empty-state h3 {
         color: #a0aec0;
         font-weight: 600;
         margin-bottom: 0.5rem;
       }
-      
+
       @media (max-width: 768px) {
         .survey-header {
           padding: 1.5rem;
         }
-        
+
         .survey-card {
           padding: 1.5rem;
         }
-        
+
         .survey-header h1 {
           font-size: 1.8rem;
+        }
+
+        .button-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .submit-btn,
+        .skip-btn {
+          width: 100%;
+          max-width: 300px;
         }
       }
     </style>
@@ -285,20 +334,27 @@
         <div class="d-flex justify-content-between align-items-start">
           <div class="header-content">
             <h1><i class="fas fa-poll"></i> Alumni Survey</h1>
-            <p>Your feedback helps us improve the alumni experience for everyone. Please take a few minutes to complete this survey.</p>
+            <p>
+              Your feedback helps us improve the alumni experience for everyone.
+              Please take a few minutes to complete this survey.
+            </p>
           </div>
           <a href="/logout" class="btn logout-btn">
             <i class="fas fa-sign-out-alt"></i> Logout
           </a>
         </div>
       </div>
-      
+
       <!-- Survey Info -->
       <div class="survey-info">
         <h4><i class="fas fa-info-circle"></i> About This Survey</h4>
-        <p>Your responses are confidential and will be used to improve alumni services, events, and networking opportunities. All fields are required.</p>
+        <p>
+          Your responses are confidential and will be used to improve alumni
+          services, events, and networking opportunities. All fields are
+          required.
+        </p>
       </div>
-      
+
       <!-- Survey Form -->
       <div class="survey-card">
         <form id="surveyForm" action="/survey" method="POST">
@@ -309,10 +365,15 @@
               <h3>Loading survey questions...</h3>
             </div>
           </div>
-          
-          <button type="submit" class="btn submit-btn">
-            <i class="fas fa-paper-plane"></i> Submit Survey
-          </button>
+
+          <div class="button-container">
+            <button type="submit" class="btn submit-btn">
+              <i class="fas fa-paper-plane"></i> Submit Survey
+            </button>
+            <a href="/job-history" class="btn skip-btn"
+              >Skip to Job History</a
+            >
+          </div>
         </form>
       </div>
     </div>
@@ -325,15 +386,15 @@
           .then((questions) => {
             const container = document.getElementById("questionsContainer");
             const loadingState = document.getElementById("loadingState");
-            
+
             // Remove loading state
             if (loadingState) {
               loadingState.remove();
             }
-            
+
             // Clear container
-            container.innerHTML = '';
-            
+            container.innerHTML = "";
+
             if (questions.length === 0) {
               container.innerHTML = `
                 <div class="empty-state">
@@ -344,7 +405,7 @@
               `;
               return;
             }
-            
+
             // Create question cards with enhanced styling
             questions.forEach((q, index) => {
               const questionElement = document.createElement("div");
@@ -355,7 +416,9 @@
                   ${q.question_text}
                 </div>
                 <div class="mb-3">
-                  <label for="question_${q.id}" class="form-label">Your Response</label>
+                  <label for="question_${
+                    q.id
+                  }" class="form-label">Your Response</label>
                   <input 
                     type="text" 
                     class="form-control" 
@@ -370,16 +433,16 @@
                 </div>
               `;
               container.appendChild(questionElement);
-              
+
               // Add character counter functionality
               const input = document.getElementById(`question_${q.id}`);
               const counter = document.getElementById(`counter_${q.id}`);
               const count = document.getElementById(`count_${q.id}`);
-              
-              input.addEventListener('input', function() {
+
+              input.addEventListener("input", function () {
                 const length = this.value.length;
                 count.textContent = length;
-                counter.style.display = 'block';
+                counter.style.display = "block";
               });
             });
           })
@@ -387,11 +450,11 @@
             console.error("Error fetching questions:", error);
             const container = document.getElementById("questionsContainer");
             const loadingState = document.getElementById("loadingState");
-            
+
             if (loadingState) {
               loadingState.remove();
             }
-            
+
             container.innerHTML = `
               <div class="empty-state">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -401,7 +464,7 @@
             `;
           });
       });
-      
+
       // Form submission remains exactly the same
       // The default form submission to /survey with POST method is preserved
     </script>

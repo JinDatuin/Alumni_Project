@@ -442,15 +442,6 @@
             <span>Or continue with</span>
           </div>
           
-          <div class="social-login">
-            <button type="button" class="social-btn google">
-              <i class="fab fa-google"></i> Google
-            </button>
-            <button type="button" class="social-btn linkedin">
-              <i class="fab fa-linkedin"></i> LinkedIn
-            </button>
-          </div>
-          
           <div class="register-link">
             <p>
               Don't have an account? <a href="/register">Register here</a>.
@@ -502,13 +493,6 @@
         }
       });
       
-      // Social login buttons (placeholder functionality)
-      document.querySelectorAll('.social-btn').forEach(button => {
-        button.addEventListener('click', function() {
-          const platform = this.classList.contains('google') ? 'Google' : 'LinkedIn';
-          alert(`${platform} login would be implemented here. This is a design demo.`);
-        });
-      });
     </script>
   </body>
 </html>
