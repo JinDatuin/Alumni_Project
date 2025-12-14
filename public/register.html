@@ -2,22 +2,664 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Register</title>
+  <title>Alumni Portal | Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --alumni-primary: #1a365d;
+      --alumni-secondary: #2c5282;
+      --alumni-accent: #e53e3e;
+      --alumni-gold: #d69e2e;
+      --alumni-light: #f7fafc;
+      --alumni-dark: #2d3748;
+      --alumni-success: #38a169;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--alumni-dark);
+    }
+    
+    .alumni-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .alumni-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      display: flex;
+      min-height: 650px;
+    }
+    
+    .registration-hero {
+      flex: 1;
+      background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+      color: white;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .registration-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    
+    .registration-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -20%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .alumni-logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    
+    .alumni-logo i {
+      font-size: 2.5rem;
+      color: var(--alumni-gold);
+      margin-right: 15px;
+    }
+    
+    .alumni-logo h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .registration-hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    
+    .registration-hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    
+    .benefits {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .benefits li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .benefits i {
+      color: var(--alumni-gold);
+      margin-right: 12px;
+      font-size: 1.2rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+      border-radius: 50%;
+    }
+    
+    .registration-section {
+      flex: 1;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+    
+    .registration-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .registration-header h2 {
+      color: var(--alumni-primary);
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    
+    .registration-header p {
+      color: var(--alumni-dark);
+      opacity: 0.7;
+      font-size: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--alumni-dark);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+    
+    .input-with-icon {
+      position: relative;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--alumni-secondary);
+      font-size: 1.1rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 15px 15px 15px 50px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: #f8fafc;
+    }
+    
+    .form-control:focus {
+      border-color: var(--alumni-primary);
+      box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+      background-color: white;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--alumni-secondary);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    
+    .password-requirements {
+      margin-top: 8px;
+      padding: 10px 15px;
+      background-color: #f7fafc;
+      border-radius: 8px;
+      border-left: 3px solid var(--alumni-primary);
+    }
+    
+    .password-requirements ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .password-requirements li {
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .password-requirements i {
+      margin-right: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .requirement-met {
+      color: var(--alumni-success);
+    }
+    
+    .requirement-not-met {
+      color: #a0aec0;
+    }
+    
+    .terms-group {
+      margin: 25px 0;
+      padding: 15px;
+      background-color: #f8fafc;
+      border-radius: 12px;
+    }
+    
+    .terms-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .terms-checkbox input {
+      margin-top: 3px;
+    }
+    
+    .terms-checkbox label {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    .terms-checkbox a {
+      color: var(--alumni-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .terms-checkbox a:hover {
+      text-decoration: underline;
+    }
+    
+    .register-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .register-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(26, 54, 93, 0.2);
+    }
+    
+    .register-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 25px;
+      color: var(--alumni-dark);
+      font-size: 0.95rem;
+    }
+    
+    .login-link a {
+      color: var(--alumni-primary);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    
+    .login-link a:hover {
+      color: var(--alumni-accent);
+      text-decoration: underline;
+    }
+    
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .back-link a {
+      color: var(--alumni-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .back-link a:hover {
+      color: var(--alumni-primary);
+      text-decoration: underline;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background-color: #e2e8f0;
+      border-radius: 3px;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--alumni-primary), var(--alumni-secondary));
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 3px;
+    }
+    
+    @media (max-width: 992px) {
+      .alumni-card {
+        flex-direction: column;
+        max-width: 700px;
+      }
+      
+      .registration-hero, .registration-section {
+        padding: 40px 30px;
+      }
+      
+      .registration-hero h1 {
+        font-size: 2.2rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      body {
+        padding: 10px;
+      }
+      
+      .registration-hero, .registration-section {
+        padding: 30px 20px;
+      }
+      
+      .registration-hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .registration-header h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Register</h1>
-  <form action="/register" method="post">
-    <label>
-      Email
-      <input name="email" type="email" required>
-    </label>
-    <label>
-      Password
-      <input name="password" type="password" required>
-    </label>
-    <br>
-    <button type="submit">Register</button>
-  </form>
-  <p><a href="/">Back</a></p>
+  <div class="alumni-container">
+    <div class="alumni-card">
+      <!-- Left Hero Section -->
+      <div class="registration-hero">
+        <div class="hero-content">
+          <div class="alumni-logo">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Alumni Network</h2>
+          </div>
+          <h1>Join Your Alumni Community</h1>
+          <p>Become part of our growing network of successful graduates. Connect, collaborate, and grow with fellow alumni from around the world.</p>
+          
+          <ul class="benefits">
+            <li><i class="fas fa-network-wired"></i> Network with thousands of alumni</li>
+            <li><i class="fas fa-briefcase"></i> Access exclusive career opportunities</li>
+            <li><i class="fas fa-calendar-alt"></i> Attend alumni-only events</li>
+            <li><i class="fas fa-chart-line"></i> Grow your professional skills</li>
+            <li><i class="fas fa-hands-helping"></i> Mentor current students</li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Right Registration Section -->
+      <div class="registration-section">
+        <div class="registration-header">
+          <h2>Create Account</h2>
+          <p>Join our alumni network in just a few steps</p>
+        </div>
+        
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <form action="/register" method="post" id="registrationForm">
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-with-icon">
+              <i class="fas fa-envelope input-icon"></i>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="alumni@example.com"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Create a strong password"
+                required
+              />
+              <button type="button" class="password-toggle" id="togglePassword">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+            
+            <div class="password-requirements" id="passwordRequirements">
+              <ul>
+                <li id="reqLength"><i class="fas fa-circle"></i> At least 8 characters</li>
+                <li id="reqUppercase"><i class="fas fa-circle"></i> At least one uppercase letter</li>
+                <li id="reqLowercase"><i class="fas fa-circle"></i> At least one lowercase letter</li>
+                <li id="reqNumber"><i class="fas fa-circle"></i> At least one number</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="input-with-icon">
+              <i class="fas fa-lock input-icon"></i>
+              <input
+                type="password"
+                class="form-control"
+                id="confirmPassword"
+                placeholder="Re-enter your password"
+                required
+              />
+            </div>
+            <div id="passwordMatch" style="display: none; margin-top: 8px; font-size: 0.9rem;">
+              <i class="fas fa-check-circle" style="color: var(--alumni-success);"></i>
+              <span style="margin-left: 5px;">Passwords match</span>
+            </div>
+            <div id="passwordMismatch" style="display: none; margin-top: 8px; font-size: 0.9rem;">
+              <i class="fas fa-exclamation-circle" style="color: var(--alumni-accent);"></i>
+              <span style="margin-left: 5px;">Passwords do not match</span>
+            </div>
+          </div>
+          
+          <div class="terms-group">
+            <div class="terms-checkbox">
+              <input type="checkbox" id="terms" name="terms" required>
+              <label for="terms">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I understand that this alumni network is for verified graduates only.
+              </label>
+            </div>
+          </div>
+          
+          <button type="submit" class="register-btn" id="submitBtn" disabled>
+            <i class="fas fa-user-plus"></i> Create Alumni Account
+          </button>
+        </form>
+        
+        <div class="login-link">
+          <p>
+            Already have an account? <a href="/">Login here</a>.
+          </p>
+        </div>
+        
+        <div class="back-link">
+          <a href="/">
+            <i class="fas fa-arrow-left"></i> Back to Home
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    });
+    
+    // Password validation
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const submitBtn = document.getElementById('submitBtn');
+    const termsCheckbox = document.getElementById('terms');
+    const progressFill = document.getElementById('progressFill');
+    
+    // Password requirement elements
+    const reqLength = document.getElementById('reqLength');
+    const reqUppercase = document.getElementById('reqUppercase');
+    const reqLowercase = document.getElementById('reqLowercase');
+    const reqNumber = document.getElementById('reqNumber');
+    const passwordMatch = document.getElementById('passwordMatch');
+    const passwordMismatch = document.getElementById('passwordMismatch');
+    
+    // Check password strength
+    function checkPasswordStrength(password) {
+      const hasMinLength = password.length >= 8;
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasLowercase = /[a-z]/.test(password);
+      const hasNumber = /[0-9]/.test(password);
+      
+      // Update requirement indicators
+      updateRequirement(reqLength, hasMinLength);
+      updateRequirement(reqUppercase, hasUppercase);
+      updateRequirement(reqLowercase, hasLowercase);
+      updateRequirement(reqNumber, hasNumber);
+      
+      // Calculate progress
+      let progress = 0;
+      if (hasMinLength) progress += 25;
+      if (hasUppercase) progress += 25;
+      if (hasLowercase) progress += 25;
+      if (hasNumber) progress += 25;
+      
+      progressFill.style.width = progress + '%';
+      
+      return hasMinLength && hasUppercase && hasLowercase && hasNumber;
+    }
+    
+    function updateRequirement(element, met) {
+      const icon = element.querySelector('i');
+      if (met) {
+        icon.classList.remove('fa-circle', 'requirement-not-met');
+        icon.classList.add('fa-check-circle', 'requirement-met');
+      } else {
+        icon.classList.remove('fa-check-circle', 'requirement-met');
+        icon.classList.add('fa-circle', 'requirement-not-met');
+      }
+    }
+    
+    // Check if passwords match
+    function checkPasswordMatch() {
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      
+      if (password && confirmPassword) {
+        if (password === confirmPassword) {
+          passwordMatch.style.display = 'block';
+          passwordMismatch.style.display = 'none';
+          return true;
+        } else {
+          passwordMatch.style.display = 'none';
+          passwordMismatch.style.display = 'block';
+          return false;
+        }
+      } else {
+        passwordMatch.style.display = 'none';
+        passwordMismatch.style.display = 'none';
+        return false;
+      }
+    }
+    
+    // Update submit button state
+    function updateSubmitButton() {
+      const isPasswordStrong = checkPasswordStrength(passwordInput.value);
+      const passwordsMatch = checkPasswordMatch();
+      const isTermsAccepted = termsCheckbox.checked;
+      const isEmailValid = document.getElementById('email').checkValidity();
+      
+      if (isPasswordStrong && passwordsMatch && isTermsAccepted && isEmailValid) {
+        submitBtn.disabled = false;
+      } else {
+        submitBtn.disabled = true;
+      }
+    }
+    
+    // Event listeners
+    passwordInput.addEventListener('input', updateSubmitButton);
+    confirmPasswordInput.addEventListener('input', updateSubmitButton);
+    termsCheckbox.addEventListener('change', updateSubmitButton);
+    document.getElementById('email').addEventListener('input', updateSubmitButton);
+    
+    // Form submission
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Show loading state
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+      submitBtn.disabled = true;
+      
+      // Simulate API call
+      setTimeout(() => {
+        // In a real app, this would submit to the server
+        alert('Registration successful! You will be redirected to the login page.');
+        window.location.href = '/';
+      }, 1500);
+    });
+    
+    // Initialize progress bar
+    progressFill.style.width = '0%';
+  </script>
 </body>
 </html>

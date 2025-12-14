@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alumni Portal | Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --alumni-primary: #1a365d;
+        --alumni-secondary: #2c5282;
+        --alumni-accent: #e53e3e;
+        --alumni-gold: #d69e2e;
+        --alumni-light: #f7fafc;
+        --alumni-dark: #2d3748;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      
+      .alumni-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      
+      .alumni-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        display: flex;
+        min-height: 600px;
+      }
+      
+      .alumni-hero {
+        flex: 1;
+        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+        color: white;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .alumni-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -30%;
+        width: 400px;
+        height: 400px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+      
+      .alumni-hero::after {
+        content: '';
+        position: absolute;
+        bottom: -30%;
+        left: -20%;
+        width: 300px;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+      }
+      
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+      
+      .alumni-logo {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+      
+      .alumni-logo i {
+        font-size: 2.5rem;
+        color: var(--alumni-gold);
+        margin-right: 15px;
+      }
+      
+      .alumni-logo h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      
+      .alumni-hero h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+      }
+      
+      .alumni-hero p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+      
+      .features {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .features li {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .features i {
+        color: var(--alumni-gold);
+        margin-right: 12px;
+        font-size: 1.2rem;
+      }
+      
+      .login-section {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      
+      .login-header h2 {
+        color: var(--alumni-primary);
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      
+      .login-header p {
+        color: var(--alumni-dark);
+        opacity: 0.7;
+        font-size: 1rem;
+      }
+      
+      .form-group {
+        margin-bottom: 25px;
+        position: relative;
+      }
+      
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--alumni-dark);
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+      
+      .input-with-icon {
+        position: relative;
+      }
+      
+      .input-icon {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--alumni-secondary);
+        font-size: 1.1rem;
+      }
+      
+      .form-control {
+        width: 100%;
+        padding: 15px 15px 15px 50px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background-color: #f8fafc;
+      }
+      
+      .form-control:focus {
+        border-color: var(--alumni-primary);
+        box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+        background-color: white;
+      }
+      
+      .password-toggle {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--alumni-secondary);
+        cursor: pointer;
+        font-size: 1.1rem;
+      }
+      
+      .login-btn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, var(--alumni-primary), var(--alumni-secondary));
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      
+      .login-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 54, 93, 0.2);
+      }
+      
+      .login-btn:active {
+        transform: translateY(-1px);
+      }
+      
+      .register-link {
+        text-align: center;
+        margin-top: 25px;
+        color: var(--alumni-dark);
+        font-size: 0.95rem;
+      }
+      
+      .register-link a {
+        color: var(--alumni-primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+      
+      .register-link a:hover {
+        color: var(--alumni-accent);
+        text-decoration: underline;
+      }
+      
+      .divider {
+        display: flex;
+        align-items: center;
+        margin: 30px 0;
+        color: var(--alumni-dark);
+        opacity: 0.7;
+      }
+      
+      .divider::before,
+      .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #e2e8f0;
+      }
+      
+      .divider span {
+        padding: 0 15px;
+        font-size: 0.9rem;
+      }
+      
+      .social-login {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .social-btn {
+        flex: 1;
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      
+      .social-btn:hover {
+        border-color: var(--alumni-primary);
+        transform: translateY(-2px);
+      }
+      
+      .social-btn.google {
+        color: #DB4437;
+      }
+      
+      .social-btn.linkedin {
+        color: #0077B5;
+      }
+      
+      .footer-note {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+        color: var(--alumni-dark);
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+      
+      @media (max-width: 992px) {
+        .alumni-card {
+          flex-direction: column;
+          max-width: 600px;
+        }
+        
+        .alumni-hero, .login-section {
+          padding: 40px 30px;
+        }
+        
+        .alumni-hero h1 {
+          font-size: 2.3rem;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        body {
+          padding: 10px;
+        }
+        
+        .alumni-hero, .login-section {
+          padding: 30px 20px;
+        }
+        
+        .alumni-hero h1 {
+          font-size: 2rem;
+        }
+        
+        .login-header h2 {
+          font-size: 1.8rem;
+        }
+        
+        .social-login {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="alumni-container">
+      <div class="alumni-card">
+        <!-- Left Hero Section -->
+        <div class="alumni-hero">
+          <div class="hero-content">
+            <div class="alumni-logo">
+              <i class="fas fa-graduation-cap"></i>
+              <h2>Alumni Network</h2>
+            </div>
+            <h1>Welcome Back, Alumni!</h1>
+            <p>Connect with your fellow graduates, explore career opportunities, and stay updated with campus news. Your professional journey continues here.</p>
+            
+            <ul class="features">
+              <li><i class="fas fa-check-circle"></i> Access exclusive alumni events</li>
+              <li><i class="fas fa-check-circle"></i> Network with fellow graduates</li>
+              <li><i class="fas fa-check-circle"></i> Job and mentorship opportunities</li>
+              <li><i class="fas fa-check-circle"></i> Stay connected with your alma mater</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Right Login Section -->
+        <div class="login-section">
+          <div class="login-header">
+            <h2>Member Login</h2>
+            <p>Sign in to your alumni account</p>
+          </div>
+          
+          <form action="/login" method="POST">
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <div class="input-with-icon">
+                <i class="fas fa-envelope input-icon"></i>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder="alumni@example.com"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-with-icon">
+                <i class="fas fa-lock input-icon"></i>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button type="button" class="password-toggle" id="togglePassword">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            
+            <button type="submit" class="login-btn">
+              <i class="fas fa-sign-in-alt"></i> Login to Alumni Portal
+            </button>
+          </form>
+          
+          <div class="divider">
+            <span>Or continue with</span>
+          </div>
+          
+          <div class="social-login">
+            <button type="button" class="social-btn google">
+              <i class="fab fa-google"></i> Google
+            </button>
+            <button type="button" class="social-btn linkedin">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </button>
+          </div>
+          
+          <div class="register-link">
+            <p>
+              Don't have an account? <a href="/register">Register here</a>.
+            </p>
+          </div>
+          
+          <div class="footer-note">
+            <p>By logging in, you agree to our Terms of Service and Privacy Policy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Toggle password visibility
+      document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          passwordInput.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      });
+      
+      // Form validation feedback
+      const form = document.querySelector('form');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      
+      emailInput.addEventListener('blur', function() {
+        if (this.value && !this.checkValidity()) {
+          this.style.borderColor = 'var(--alumni-accent)';
+        } else if (this.value) {
+          this.style.borderColor = 'var(--alumni-primary)';
+        }
+      });
+      
+      passwordInput.addEventListener('blur', function() {
+        if (this.value.length < 6) {
+          this.style.borderColor = 'var(--alumni-accent)';
+        } else if (this.value) {
+          this.style.borderColor = 'var(--alumni-primary)';
+        }
+      });
+      
+      // Social login buttons (placeholder functionality)
+      document.querySelectorAll('.social-btn').forEach(button => {
+        button.addEventListener('click', function() {
+          const platform = this.classList.contains('google') ? 'Google' : 'LinkedIn';
+          alert(`${platform} login would be implemented here. This is a design demo.`);
+        });
+      });
+    </script>
+  </body>
+</html>

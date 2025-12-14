@@ -1,3 +1,4 @@
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
@@ -76,7 +77,7 @@ app.post("/register", (req, res) => {
     const query = "INSERT INTO users (email, password) VALUES (?, ?)";
     db.query(query, [email, hash], (err, result) => {
       if (err) {
-        if (err.code === 'ER_DUP_ENTRY') {
+        if (err.code === "ER_DUP_ENTRY") {
           return res.status(409).send("User with this email already exists.");
         }
         return res.status(500).send("Database error on user creation.");
@@ -86,6 +87,36 @@ app.post("/register", (req, res) => {
   });
 });
 
+// Login route
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).send("Email and password are required.");
+  }
+
+  const query = "SELECT * FROM users WHERE email = ?";
+  db.query(query, [email], (err, results) => {
+    if (err) {
+      return res.status(500).send("Database error during login.");
+    }
+    if (results.length === 0) {
+      return res.status(401).send("Invalid email or password.");
+    }
+
+    const user = results[0];
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) {
+        return res.status(500).send("Error comparing passwords.");
+      }
+      if (isMatch) {
+        req.session.user = { id: user.id, email: user.email };
+        res.redirect("/survey");
+      } else {
+        res.status(401).send("Invalid email or password.");
+      }
+    });
+  });
+});
 
 app.get("/survey", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "survey.html"));
@@ -106,7 +137,8 @@ app.post("/survey", isAuthenticated, (req, res) => {
   const userId = req.session.user.id;
   const answers = req.body;
 
-  const query = "INSERT INTO user_answers (user_id, question_id, answer_text) VALUES ?";
+  const query =
+    "INSERT INTO user_answers (user_id, question_id, answer_text) VALUES ?";
   const values = Object.keys(answers).map((key) => {
     const questionId = key.split("_")[1];
     return [userId, questionId, answers[key]];
@@ -129,16 +161,45 @@ app.get("/job-history", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "job_history.html"));
 });
 
+// Fetch all job history for the logged-in user
+app.get("/job-history/all", isAuthenticated, (req, res) => {
+  const userId = req.session.user.id;
+  const query =
+    "SELECT * FROM job_history WHERE user_id = ? ORDER BY start_date DESC";
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      res.status(500).send("Error fetching job history.");
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 app.post("/job-history", isAuthenticated, (req, res) => {
   const userId = req.session.user.id;
   const { company_name, position, start_date, end_date } = req.body;
 
-  const query = "INSERT INTO job_history (user_id, company_name, position, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
-  db.query(query, [userId, company_name, position, start_date, end_date || null], (err, result) => {
-    if (err) {
-      return res.status(500).send("Error adding job history.");
+  const query =
+    "INSERT INTO job_history (user_id, company_name, position, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
+  db.query(
+    query,
+    [userId, company_name, position, start_date, end_date || null],
+    (err, result) => {
+      if (err) {
+        return res.status(500).send("Error adding job history.");
+      }
+      // Can redirect to a "thank you" page or back to the job history to add more
+      res.redirect("/job-history");
     }
-    // Can redirect to a "thank you" page or back to the job history to add more
-    res.redirect("/job-history");
+  );
+});
+
+// Logout route
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Could not log out.");
+    }
+    res.redirect("/");
   });
 });
